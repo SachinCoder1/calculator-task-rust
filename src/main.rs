@@ -26,5 +26,34 @@ fn calculate(op: Operation) -> f64 {
 
 
 fn main() {
-    println!("Hello, world!");
+    println!("Welcome to the Calculator CLI")
+    let mut input = String::new();
+
+    println!("Enter the first number:");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+    let first_number: f64 = input.trim().parse().expect("Please type a number!");
+    input.clear();
+
+    println!("Enter the operation (Add, Subtract, Multiply, Divide):");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+    let operation = input.trim();
+    input.clear();
+
+    println!("Enter the second number:");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+    let second_number: f64 = input.trim().parse().expect("Please type a number!");
+
+    let op = match operation.to_lowercase().as_str() {
+        "add" => Operation::Add(first_number, second_number),
+        "subtract" => Operation::Subtract(first_number, second_number),
+        "multiply" => Operation::Multiply(first_number, second_number),
+        "divide" => Operation::Divide(first_number, second_number),
+        _ => {
+            println!("Invalid operation!");
+            return;
+        }
+    };
+
+    let result = calculate(op);
+    println!("Result: {}", result);
 }
